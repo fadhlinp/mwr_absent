@@ -2,6 +2,7 @@
 import React, { useState, useEffect, createContext } from 'react'
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from '@react-native-community/geolocation';
+import SplashScreen from 'react-native-splash-screen'
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -46,11 +47,15 @@ export default function RootNavigator() {
 
     if (initializing) {
         return null
-    }
+    } else {
+        useEffect(() => {
+            SplashScreen.hide()
+        })
 
-    return loginToken ? (
-        <SignInStack />
-    ) : (
-            <SignOutStack />
-        )
+        return loginToken ? (
+            <SignInStack />
+        ) : (
+                <SignOutStack />
+            )
+    }
 }
