@@ -72,8 +72,15 @@ function handleResponse(response, onSuccess) {
         } else {
             let { message } = response;
             if (message == 'Session Expired') {
-                Alert.alert(message, "Please sign in again");
-                dispatch(actions.Auth.navToSignInScreen)
+
+                Alert.alert(message, "Please sign in again", [
+                    {
+                        text: 'Ok', onPress: () => {
+                            dispatch(actions.Auth.navToSignInScreen())
+                        }
+                    }
+                ], { cancelable: false })
+
             } else {
                 Alert.alert("Failed", message);
             }

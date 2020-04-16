@@ -62,12 +62,10 @@ const Drawer = createDrawerNavigator();
 export default function SignInStack() {
 
     return (
-        <NavigationContainer>
-            <Drawer.Navigator
-                drawerContent={props => <CustomDrawerContent {...props} />}>
-                <Drawer.Screen name="Home" component={DrawerScreen} />
-            </Drawer.Navigator>
-        </NavigationContainer>
+        <Drawer.Navigator
+            drawerContent={props => <CustomDrawerContent {...props} />}>
+            <Drawer.Screen name="Home" component={DrawerScreen} />
+        </Drawer.Navigator>
     )
 }
 

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, createContext } from 'react'
+import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import SplashScreen from 'react-native-splash-screen'
@@ -14,6 +15,7 @@ import SignOutStack from './SignOutStack'
 
 export default function RootNavigator() {
     const [initializing, setInitializing] = useState(true)
+    const [isSignIn, setIsSignIn] = useState(true)
     const dispatch = useDispatch()
 
     let loginToken = useSelector(state => state.authReducers.loginToken);
@@ -24,6 +26,13 @@ export default function RootNavigator() {
                 then((userToken) => {
                     dispatch(actions.Auth.setLoginToken(userToken));
                     setInitializing(false)
+                    SplashScreen.hide()
+
+                    if (userToken) {
+                        setIsSignIn(true)
+                    } else {
+                        setIsSignIn(true)
+                    }
                 });
         };
 
@@ -47,15 +56,19 @@ export default function RootNavigator() {
 
     if (initializing) {
         return null
-    } else {
-        useEffect(() => {
-            SplashScreen.hide()
-        })
-
-        return loginToken ? (
-            <SignInStack />
-        ) : (
-                <SignOutStack />
-            )
     }
+
+    return (
+        <NavigationContainer>
+            {loginToken ? (
+                <SignInStack options={{
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: isSignIn ? 'push' : 'pop',
+                }} />
+            ) : (
+                    <SignOutStack />
+                )
+            }
+        </NavigationContainer>
+    )
 }

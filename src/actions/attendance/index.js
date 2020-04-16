@@ -9,7 +9,7 @@ import { STRING } from "../../constant"
 
 export function getTodayAttendance() {
     return async (dispatch, getState) => {
-
+        // dispatch(Loading.showLoading());
         const login_token = await AsyncStorage.getItem(STRING.LOGIN_TOKEN)
         let params = {
             loginToken: login_token
@@ -17,10 +17,15 @@ export function getTodayAttendance() {
 
         await API.ATTENDANCE.getTodayAttendance(params)
             .then(response => {
-                dispatch(handleResponse(response, () => {
-                    let { params } = response;
-                    dispatch(setTodayAttendance(params))
-                }))
+                dispatch(Loading.hideLoading());
+
+                setTimeout(() => {
+                    dispatch(handleResponse(response, () => {
+                        let { params } = response;
+                        dispatch(setTodayAttendance(params))
+                    }))
+                }, 500)
+
             })
             .catch(error => {
                 console.log("err action.attendance.getTodayAttendance", error);
@@ -81,15 +86,22 @@ export function getTimeServer() {
 function handleResponse(response, onSuccess) {
     return async (dispatch, getState) => {
         let { ok } = response;
-
+        console.log('responsess', response);
         if (ok === "true") {
             onSuccess();
 
         } else {
             let { message } = response;
             if (message == 'Session Expired') {
-                Alert.alert(message, "Please sign in again");
-                dispatch(actions.Auth.navToSignInScreen)
+
+                Alert.alert(message, "Please sign in again", [
+                    {
+                        text: 'Ok', onPress: () => {
+                            dispatch(actions.Auth.navToSignInScreen())
+                        }
+                    }
+                ], { cancelable: false })
+
             } else {
                 Alert.alert("Failed", message);
             }

@@ -23,7 +23,7 @@ export function signIn(params) {
                         saveToStorage(STRING.USER_PROFILE, params.name);
                         dispatch(setLoginToken(params.loginToken))
                     }))
-                }, 500);
+                }, 700);
             })
             .catch(error => {
                 dispatch(Loading.hideLoading());
@@ -89,8 +89,14 @@ function handleResponse(response, onSuccess) {
 
         } else if (response.message == 'Session Expired') {
             let { message } = response;
-            Alert.alert(message, "Please sign in again");
-            dispatch(navToSignInScreen())
+            Alert.alert(message, "Please sign in again", [
+                {
+                    text: 'Ok', onPress: () => {
+                        dispatch(navToSignInScreen())
+                    }
+                }
+            ], { cancelable: false })
+
         } else {
             let { message } = response;
             Alert.alert("Failed", message);

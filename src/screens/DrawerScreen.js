@@ -3,6 +3,8 @@ import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { s, vs } from 'react-native-size-matters';
 
+import { useSelector, useDispatch } from "react-redux";
+
 import * as CONSTANT from "../constant";
 
 import HomeScreen from './HomeScreen';
@@ -11,8 +13,18 @@ import MapsScreen from './MapsScreen';
 import CameraScreen from './CameraScreen';
 import SubmitScreen from './SubmitScreen';
 
+function getCurrentHours() {
+    let timeServer = useSelector(state => state.attendanceReducers.timeServer);
+    let hh = timeServer.time.split(":")[0]
+
+    return Number(hh)
+}
+
 const HomeStack = createStackNavigator();
-const HomeStackScreen = ({ navigation, signOut }) => {
+const HomeStackScreen = ({ navigation }) => {
+
+
+
     return (
         <HomeStack.Navigator initialRouteName='MWR'>
             <HomeStack.Screen name='MWR' component={HomeScreen} options={{
@@ -73,7 +85,7 @@ const HomeStackScreen = ({ navigation, signOut }) => {
                 headerStyle: {
                     backgroundColor: CONSTANT.STYLE.COLOR.MWR_RED
                 },
-                title: 'Check In',
+                title: getCurrentHours() > 11 ? 'Check Out' : 'Check In',
                 headerTintColor: 'white',
                 headerTitleStyle: styles.headerStyle,
                 headerTitleAlign: 'left',
