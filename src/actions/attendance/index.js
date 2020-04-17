@@ -86,7 +86,7 @@ export function getTimeServer() {
 function handleResponse(response, onSuccess) {
     return async (dispatch, getState) => {
         let { ok } = response;
-        console.log('responsess', response);
+
         if (ok === "true") {
             onSuccess();
 

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, createContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import SplashScreen from 'react-native-splash-screen'
@@ -58,17 +59,21 @@ export default function RootNavigator() {
         return null
     }
 
+    const Stack = createStackNavigator()
     return (
         <NavigationContainer>
-            {loginToken ? (
-                <SignInStack options={{
-                    // When logging out, a pop animation feels intuitive
-                    animationTypeForReplace: isSignIn ? 'push' : 'pop',
-                }} />
-            ) : (
-                    <SignOutStack />
-                )
-            }
+            <Stack.Navigator headerMode="none">
+                {loginToken ? (
+                    <Stack.Screen name="SignInStack" component={SignInStack} options={{
+                        animationTypeForReplace: isSignIn ? 'push' : 'pop',
+                    }} />
+                ) : (
+                        <Stack.Screen name="SignOutStack" component={SignOutStack} options={{
+                            // animationTypeForReplace: 'push'
+                        }} />
+                    )
+                }
+            </Stack.Navigator>
         </NavigationContainer>
     )
 }
