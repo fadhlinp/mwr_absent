@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
     SafeAreaView,
-    StyleSheet,
-    View
+    StyleSheet
 } from 'react-native';
 
 import * as CONSTANT from "../../constant";
-import { LoadingIndicator } from "../../components";
+import { LoadingIndicator, ConnectionStatus } from "../../components";
 
 export default class Layout extends Component {
 
@@ -19,6 +18,7 @@ export default class Layout extends Component {
             <SafeAreaView style={[styles.container, this.props.containerStyle]}>
                 {this.props.children}
                 <LoadingIndicator />
+                <ConnectionStatus />
             </SafeAreaView>
         );
     }

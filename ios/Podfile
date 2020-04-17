@@ -56,7 +56,8 @@ target 'mwr_mobile_absent_ios' do
 
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
   pod 'react-native-geolocation', path: '../node_modules/@react-native-community/geolocation'
-
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+  
   target 'mwr_mobile_absent_iosTests' do
     inherit! :complete
     # Pods for testing

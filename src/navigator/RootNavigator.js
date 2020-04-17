@@ -16,7 +16,6 @@ import SignOutStack from './SignOutStack'
 
 export default function RootNavigator() {
     const [initializing, setInitializing] = useState(true)
-    const [isSignIn, setIsSignIn] = useState(true)
     const dispatch = useDispatch()
 
     let loginToken = useSelector(state => state.authReducers.loginToken);
@@ -28,12 +27,6 @@ export default function RootNavigator() {
                     dispatch(actions.Auth.setLoginToken(userToken));
                     setInitializing(false)
                     SplashScreen.hide()
-
-                    if (userToken) {
-                        setIsSignIn(true)
-                    } else {
-                        setIsSignIn(true)
-                    }
                 });
         };
 
@@ -65,11 +58,11 @@ export default function RootNavigator() {
             <Stack.Navigator headerMode="none">
                 {loginToken ? (
                     <Stack.Screen name="SignInStack" component={SignInStack} options={{
-                        animationTypeForReplace: isSignIn ? 'push' : 'pop',
+                        animationTypeForReplace: 'push'
                     }} />
                 ) : (
                         <Stack.Screen name="SignOutStack" component={SignOutStack} options={{
-                            // animationTypeForReplace: 'push'
+                            animationTypeForReplace: 'pop'
                         }} />
                     )
                 }

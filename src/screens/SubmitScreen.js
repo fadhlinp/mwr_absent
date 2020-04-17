@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { RNCamera, FaceDetector } from 'react-native-camera';
 import { s, vs } from 'react-native-size-matters';
-import { CustomButton } from "../components";
+import { CustomButton, Layout } from "../components";
 import * as CONSTANT from "../constant";
 
 //redux
@@ -33,9 +33,7 @@ class Submit extends Component {
         let { timeServer, userData } = this.props
         let { name, positionUser, nik } = userData
         return (
-
-            <SafeAreaView style={styles.container}>
-
+            <Layout>
                 <View style={styles.photoContainer}>
                     <Image
                         source={{ uri: this.props.route.params.uri }}
@@ -64,8 +62,7 @@ class Submit extends Component {
                         textStyle={{ color: CONSTANT.STYLE.COLOR.MWR_BLUE }}
                     />
                 </View>
-
-            </SafeAreaView>
+            </Layout>
         );
     }
 
@@ -110,7 +107,6 @@ function RowText({ str1, str2 }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginHorizontal: CONSTANT.STYLE.SIZE.MAIN_MARGIN_HORIZONTAL + 20,
     },
     photoContainer: {
@@ -132,7 +128,8 @@ const styles = StyleSheet.create({
         width: '50%'
     },
     buttonContainer: {
-        marginTop: vs(20)
+        marginTop: vs(20),
+        marginHorizontal: s(20)
     },
     button: {
         bottom: 10

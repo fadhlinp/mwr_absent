@@ -89,7 +89,7 @@ class SignIn extends Component {
         let { errors = {}, secureTextEntry, ...data } = this.state;
 
         return (
-            <Layout ref={ref => this.loadingRef = ref}>
+            <Layout containerStyle={{ marginTop: vs(25) }} ref={ref => this.loadingRef = ref}>
                 <View style={styles.container}>
                     <View style={styles.logoContainer}>
                         <Image

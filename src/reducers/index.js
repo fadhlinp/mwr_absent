@@ -4,6 +4,7 @@ import * as Attendance from './attendance'
 import * as Auth from "./auth"
 import * as Loading from "./loading"
 import * as Location from './location'
+import * as ConnectionStatus from './connectionStatus'
 
 export default reducers = combineReducers({
     authReducers: combineReducers({
@@ -20,5 +21,8 @@ export default reducers = combineReducers({
     }),
     locationReducers: combineReducers({
         currentLocation: Location.getLocation
+    }),
+    connectionReducers: combineReducers({
+        connectionStatus: ConnectionStatus.getConnectionStatus
     })
 });
