@@ -21,7 +21,7 @@ function TodayAttendance({ navigation, attendanceData }) {
 
     let todayAttendance = useSelector(state => state.attendanceReducers.todayAttendance);
 
-    if (todayAttendance.checkIn === "") {
+    if (todayAttendance.checkIn === "" && todayAttendance.checkOut === "") {
         return (
 
             <View>

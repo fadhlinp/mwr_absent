@@ -6,7 +6,7 @@ import * as actions from "../../actions";
 import { Loading } from '../../actions'
 import { STRING } from "../../constant";
 
-export function sendPhoto(uri, currentHours, onCallbackSuccess) {
+export function sendPhoto(uri, currentHours, onCallbackSuccess, navigation) {
     return async (dispatch, getState) => {
         dispatch(Loading.showLoading());
 
@@ -14,7 +14,7 @@ export function sendPhoto(uri, currentHours, onCallbackSuccess) {
             .then(response => {
                 dispatch(handleResponse(response, () => {
                     let { params } = response;
-                    dispatch(checkIn(params, currentHours, onCallbackSuccess))
+                    dispatch(checkIn(params, currentHours, onCallbackSuccess, navigation))
                 }))
             })
             .catch(error => {
@@ -24,7 +24,7 @@ export function sendPhoto(uri, currentHours, onCallbackSuccess) {
     };
 }
 
-export function checkIn(params, currentHours, onCallbackSuccess) {
+export function checkIn(params, currentHours, onCallbackSuccess, navigation) {
     return async (dispatch, getState) => {
 
         let method = "checkInAbsen";
@@ -50,7 +50,34 @@ export function checkIn(params, currentHours, onCallbackSuccess) {
 
                     dispatch(handleResponse(response, () => {
                         let { params } = response;
-                        onCallbackSuccess(params.message)
+                        let { checkIn, checkOut } = getState().attendanceReducers.todayAttendance
+                        if (method == "checkInAbsen") {
+                            if (checkIn == "") {
+                                onCallbackSuccess(params.message)
+                            } else {
+                                Alert.alert("Failed", "Anda sudah check-in hari ini", [
+                                    {
+                                        text: 'Ok', onPress: () => navigation.reset({
+                                            index: 0,
+                                            routes: [{ name: 'Home' }],
+                                        })
+                                    }
+                                ], { cancelable: false })
+                            }
+                        } else {
+                            if (checkOut == "") {
+                                onCallbackSuccess(params.message)
+                            } else {
+                                Alert.alert("Failed", "Anda sudah check-out hari ini", [
+                                    {
+                                        text: 'Ok', onPress: () => navigation.reset({
+                                            index: 0,
+                                            routes: [{ name: 'Home' }],
+                                        })
+                                    }
+                                ], { cancelable: false })
+                            }
+                        }
                     }))
 
                 }, 500);

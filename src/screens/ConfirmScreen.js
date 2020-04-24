@@ -18,7 +18,7 @@ import * as actions from "../actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-class Submit extends Component {
+class Confirm extends Component {
 
     constructor(props) {
         super(props);
@@ -38,24 +38,26 @@ class Submit extends Component {
                     <Image
                         source={{ uri: this.props.route.params.uri }}
                         style={{
-                            width: s(Dimensions.get('screen').width * 0.6),
-                            height: vs(Dimensions.get('screen').height * 0.3),
+                            width: s(Dimensions.get('screen').width * 0.3),
+                            height: vs(Dimensions.get('screen').height * 0.08),
                             resizeMode: "contain"
                         }}
                     />
+
+                    <View style={{ marginLeft: s(15) }}>
+                        <Text>{name}</Text>
+                        <Text>{positionUser}</Text>
+                    </View>
                 </View>
 
-                <View style={{ flex: 1 }}>
-                    <RowText str1={'NIK'} str2={nik} />
-                    <RowText str1={'Nama'} str2={name} />
-                    <RowText str1={'Jabatan'} str2={positionUser} />
-                    <RowText str1={'Tanggal'} str2={timeServer.date} />
-                    <RowText str1={'Waktu'} str2={timeServer.time} />
+                <View style={styles.timeDesc}>
+                    <StartTime checkIn={this.props.todayAttendance.checkIn} />
+                    <EndTime checkOut={this.props.todayAttendance.checkOut} />
                 </View>
 
                 <View style={styles.button}>
                     <CustomButton
-                        title={"SUBMIT"}
+                        title={"OK"}
                         style={styles.buttonContainer}
                         onPress={this.onSubmit}
                         textStyle={{ color: CONSTANT.STYLE.COLOR.MWR_BLUE }}
@@ -73,15 +75,30 @@ class Submit extends Component {
     }
 
     onSubmit() {
-        let { uri } = this.props.route.params
-        let currentHours = this.getCurrentHours()
-        this.props.actionCheckIn.sendPhoto(uri, currentHours, this.onCallbackSuccess, this.props.navigation)
+        this.props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }]
+        })
     }
+}
 
-    onCallbackSuccess = () => {
-        let uri = this.props.route.params.uri
-        this.props.navigation.push('Confirm', { uri: uri })
-    }
+function StartTime({ checkIn }) {
+    return (
+        <View style={styles.timeDetail}>
+            <Text style={{ color: CONSTANT.STYLE.COLOR.MWR_GREEN, fontSize: CONSTANT.STYLE.SIZE.SUB_TITLE, fontFamily: 'OpenSans-SemiBold' }}>Waktu Mulai</Text>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkIn == "" ? "--:--" : checkIn)}</Text>
+        </View>
+    )
+}
+
+function EndTime({ checkOut }) {
+
+    return (
+        <View style={styles.timeDetail}>
+            <Text style={{ color: CONSTANT.STYLE.COLOR.MWR_RED, fontSize: CONSTANT.STYLE.SIZE.SUB_TITLE, fontFamily: 'OpenSans-SemiBold' }}>Waktu Akhir</Text>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkOut == "" ? "--:--" : checkOut)}</Text>
+        </View>
+    )
 }
 
 function RowText({ str1, str2 }) {
@@ -103,6 +120,8 @@ const styles = StyleSheet.create({
         marginHorizontal: CONSTANT.STYLE.SIZE.MAIN_MARGIN_HORIZONTAL + 20,
     },
     photoContainer: {
+        paddingHorizontal: s(10),
+        flexDirection: 'row',
         marginTop: vs(20),
         marginBottom: vs(20),
         alignItems: 'center'
@@ -126,13 +145,24 @@ const styles = StyleSheet.create({
     },
     button: {
         bottom: 10
-    }
+    },
+    timeDesc: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingHorizontal: s(10),
+        borderColor: 'grey'
+    },
+    timeDetail: {
+        alignItems: 'center'
+    },
 });
 
 function mapStateToProps(state) {
     return {
         userData: state.authReducers.userData,
-        timeServer: state.attendanceReducers.timeServer
+        timeServer: state.attendanceReducers.timeServer,
+        todayAttendance: state.attendanceReducers.todayAttendance
     };
 }
 
@@ -143,4 +173,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Submit);
+export default connect(mapStateToProps, mapDispatchToProps)(Confirm);

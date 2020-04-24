@@ -12,6 +12,7 @@ import History from './HistoryScreen';
 import MapsScreen from './MapsScreen';
 import CameraScreen from './CameraScreen';
 import SubmitScreen from './SubmitScreen';
+import ConfirmScreen from './ConfirmScreen';
 
 function getCurrentHours() {
     let timeServer = useSelector(state => state.attendanceReducers.timeServer);
@@ -86,6 +87,17 @@ const HomeStackScreen = ({ navigation }) => {
                     backgroundColor: CONSTANT.STYLE.COLOR.MWR_RED
                 },
                 title: getCurrentHours() > 11 ? 'Check Out' : 'Check In',
+                headerTintColor: 'white',
+                headerTitleStyle: styles.headerStyle,
+                headerTitleAlign: 'left',
+                headerBackTitleVisible: false
+            }} />
+
+            <HomeStack.Screen name='Confirm' component={ConfirmScreen} options={{
+                headerStyle: {
+                    backgroundColor: CONSTANT.STYLE.COLOR.MWR_RED
+                },
+                title: 'HR Mobile',
                 headerTintColor: 'white',
                 headerTitleStyle: styles.headerStyle,
                 headerTitleAlign: 'left',
