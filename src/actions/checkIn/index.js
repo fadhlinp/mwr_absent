@@ -8,23 +8,68 @@ import { STRING } from "../../constant";
 
 export function sendPhoto(uri, currentHours, onCallbackSuccess, navigation) {
     return async (dispatch, getState) => {
-        dispatch(Loading.showLoading());
 
-        await API.CheckIn.sendPhoto(uri)
-            .then(response => {
-                dispatch(handleResponse(response, () => {
-                    let { params } = response;
-                    dispatch(checkIn(params, currentHours, onCallbackSuccess, navigation))
-                }))
-            })
-            .catch(error => {
-                dispatch(Loading.hideLoading());
-                console.log("err action.checkIn.sendPhoto", error);
-            });
+        let method = "checkInAbsen";
+        if (currentHours > 11) {
+            method = "checkOutAbsen"
+        }
+
+        console.log("methodd", method)
+
+        let todayAttendance = getState().attendanceReducers.todayAttendance
+        if (method == "checkInAbsen") {
+            if (todayAttendance.checkIn == "") {
+                dispatch(Loading.showLoading());
+                await API.CheckIn.sendPhoto(uri)
+                    .then(response => {
+                        dispatch(handleResponse(response, () => {
+                            let { params } = response;
+                            dispatch(checkIn(params, currentHours, onCallbackSuccess, navigation))
+                        }))
+                    })
+                    .catch(error => {
+                        dispatch(Loading.hideLoading());
+                        console.log("err action.checkIn.sendPhoto", error);
+                    });
+            } else {
+                Alert.alert("Failed", "Anda sudah check-in hari ini", [
+                    {
+                        text: 'Ok', onPress: () => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }],
+                        })
+                    }
+                ], { cancelable: false })
+            }
+        } else {
+            if (todayAttendance.checkOut == "") {
+                dispatch(Loading.showLoading());
+                await API.CheckIn.sendPhoto(uri)
+                    .then(response => {
+                        dispatch(handleResponse(response, () => {
+                            let { params } = response;
+                            dispatch(checkIn(params, currentHours, onCallbackSuccess))
+                        }))
+                    })
+                    .catch(error => {
+                        dispatch(Loading.hideLoading());
+                        console.log("err action.checkIn.sendPhoto", error);
+                    });
+            } else {
+                Alert.alert("Failed", "Anda sudah check-out hari ini", [
+                    {
+                        text: 'Ok', onPress: () => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }],
+                        })
+                    }
+                ], { cancelable: false })
+            }
+        }
     };
 }
 
-export function checkIn(params, currentHours, onCallbackSuccess, navigation) {
+export function checkIn(params, currentHours, onCallbackSuccess) {
     return async (dispatch, getState) => {
 
         let method = "checkInAbsen";
@@ -41,7 +86,7 @@ export function checkIn(params, currentHours, onCallbackSuccess, navigation) {
             longitude: Number(longitude),
             foto: params.fileName
         }
-
+        console.log("method", method)
         await API.CheckIn.checkIn(method, params2)
             .then(response => {
                 dispatch(Loading.hideLoading());
@@ -50,34 +95,7 @@ export function checkIn(params, currentHours, onCallbackSuccess, navigation) {
 
                     dispatch(handleResponse(response, () => {
                         let { params } = response;
-                        let { checkIn, checkOut } = getState().attendanceReducers.todayAttendance
-                        if (method == "checkInAbsen") {
-                            if (checkIn == "") {
-                                onCallbackSuccess(params.message)
-                            } else {
-                                Alert.alert("Failed", "Anda sudah check-in hari ini", [
-                                    {
-                                        text: 'Ok', onPress: () => navigation.reset({
-                                            index: 0,
-                                            routes: [{ name: 'Home' }],
-                                        })
-                                    }
-                                ], { cancelable: false })
-                            }
-                        } else {
-                            if (checkOut == "") {
-                                onCallbackSuccess(params.message)
-                            } else {
-                                Alert.alert("Failed", "Anda sudah check-out hari ini", [
-                                    {
-                                        text: 'Ok', onPress: () => navigation.reset({
-                                            index: 0,
-                                            routes: [{ name: 'Home' }],
-                                        })
-                                    }
-                                ], { cancelable: false })
-                            }
-                        }
+                        onCallbackSuccess(params.message)
                     }))
 
                 }, 500);

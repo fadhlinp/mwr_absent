@@ -111,6 +111,7 @@ class SignIn extends Component {
                             onChangeText={this.onChangeText}
                             onSubmitEditing={this.onSubmitUserId}
                             returnKeyType='next'
+                            autoCapitalize='none'
                             label='User ID'
                             error={errors.userId}
                             style={{ fontFamily: 'OpenSans-Regular' }}

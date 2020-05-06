@@ -27,6 +27,7 @@ class Confirm extends Component {
 
     componentDidMount() {
         this.props.actionAttendance.getTimeServer()
+        this.props.actionAttendance.getTodayAttendance()
     }
 
     render() {
