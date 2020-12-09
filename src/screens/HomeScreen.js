@@ -8,6 +8,7 @@ import { Text, DigitalClock, Layout } from "../components";
 //redux
 import * as actions from "../actions";
 import { useSelector, useDispatch } from "react-redux";
+import { CheckIn } from '../api';
 
 function StartTime({ checkIn }) {
     return (
@@ -39,6 +40,12 @@ function IconButton({ image_url, name, navigation, getCurrentHours }) {
         }
     }
 
+    getName = () => {
+        let currentHours = getCurrentHours();
+        if(currentHours > 11) return 'Check Out'
+        else return 'Check In'
+    }
+
     return (
         <View style={styles.IconButton}>
             <TouchableOpacity style={{ alignItems: 'center' }}
@@ -52,7 +59,7 @@ function IconButton({ image_url, name, navigation, getCurrentHours }) {
                     }}
                 />
 
-                <Text>{name}</Text>
+                <Text>{getName()}</Text>
             </TouchableOpacity>
         </View>
     )

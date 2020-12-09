@@ -18,7 +18,7 @@ export function sendPhoto(uri, currentHours, onCallbackSuccess, navigation) {
 
         let todayAttendance = getState().attendanceReducers.todayAttendance
         if (method == "checkInAbsen") {
-            if (todayAttendance.checkIn == "") {
+            if (todayAttendance.checkIn == "" || todayAttendance.checkIn == '00:00:00') {
                 dispatch(Loading.showLoading());
                 await API.CheckIn.sendPhoto(uri)
                     .then(response => {
@@ -42,7 +42,7 @@ export function sendPhoto(uri, currentHours, onCallbackSuccess, navigation) {
                 ], { cancelable: false })
             }
         } else {
-            if (todayAttendance.checkOut == "") {
+            if (todayAttendance.checkOut == "" || todayAttendance.checkOut == '00:00:00') {
                 dispatch(Loading.showLoading());
                 await API.CheckIn.sendPhoto(uri)
                     .then(response => {
