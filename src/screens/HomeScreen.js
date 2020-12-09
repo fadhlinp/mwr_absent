@@ -41,9 +41,14 @@ function IconButton({ image_url, name, navigation, getCurrentHours }) {
     }
 
     getName = () => {
-        let currentHours = getCurrentHours();
-        if(currentHours > 11) return 'Check Out'
-        else return 'Check In'
+        if(name === 'History') return 'History';
+        else {
+            let date = new Date();
+            let hours = date.getHours();
+
+            if(hours < 12) return 'Check In'
+            else return 'Check Out'
+        }
     }
 
     return (
