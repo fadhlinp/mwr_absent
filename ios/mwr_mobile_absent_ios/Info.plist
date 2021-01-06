@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -38,15 +38,15 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>MWR Mobile Absent would like to use your camera to capture your photo. Your photo is required for check in and check out. Your photos won&apos;t be shared without your permission.</string>
+	<string>MWR Mobile Absent would like to use your camera to capture your photo. Your photo is required for check in and check out. Your photos won't be shared without your permission.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>MWR Mobile Absent would like to use your current location to display it on the app to show your check in location or check out location. Your location won&apos;t be shared without your permission.</string>
+	<string>MWR Mobile Absent would like to use your current location to display it on the app to show your check in location or check out location. Your location won't be shared without your permission.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>MWR Mobile Absent would like to use your current location to display it on the app to show your check in location or check out location. Your location won&apos;t be shared without your permission.</string>
+	<string>MWR Mobile Absent would like to use your current location to display it on the app to show your check in location or check out location. Your location won't be shared without your permission.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>MWR Mobile Absent would like to access your photo gallery for your photo upload. Your photo is required for check in and check out. Your photos won&apos;t be shared without your permission.</string>
+	<string>MWR Mobile Absent would like to access your photo gallery for your photo upload. Your photo is required for check in and check out. Your photos won't be shared without your permission.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>MWR Mobile Absent would like to access your photo gallery for your photo upload. Your photo is required for check in and check out. Your photos won&apos;t be shared without your permission.</string>
+	<string>MWR Mobile Absent would like to access your photo gallery for your photo upload. Your photo is required for check in and check out. Your photos won't be shared without your permission.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Bold.ttf</string>
