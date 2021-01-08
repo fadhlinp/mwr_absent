@@ -14,7 +14,7 @@ function StartTime({ checkIn }) {
     return (
         <View style={styles.timeDetail}>
             <Text style={{ color: CONSTANT.STYLE.COLOR.MWR_GREEN, fontSize: CONSTANT.STYLE.SIZE.SUB_TITLE, fontFamily: 'OpenSans-SemiBold' }}>Waktu Mulai</Text>
-            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkIn == "" ? "--:--" : checkIn)}</Text>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkIn == "" || checkIn == "00:00:00" ? "--:--" : checkIn)}</Text>
         </View>
     )
 }
@@ -24,7 +24,7 @@ function EndTime({ checkOut }) {
     return (
         <View style={styles.timeDetail}>
             <Text style={{ color: CONSTANT.STYLE.COLOR.MWR_RED, fontSize: CONSTANT.STYLE.SIZE.SUB_TITLE, fontFamily: 'OpenSans-SemiBold' }}>Waktu Akhir</Text>
-            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkOut == "" ? "--:--" : checkOut)}</Text>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{(checkOut == "" || checkOut == "00:00:00" ? "--:--" : checkOut)}</Text>
         </View>
     )
 }
@@ -35,8 +35,9 @@ function IconButton({ image_url, name, navigation, getCurrentHours }) {
         if (name === 'History') {
             navigation.push('History')
         } else {
-            let currentHours = getCurrentHours();
-            navigation.push('Camera', { currentHours: currentHours })
+            // let currentHours = getCurrentHours();
+            // navigation.push('Camera', { currentHours: currentHours })
+            navigation.push('Camera');
         }
     }
 
