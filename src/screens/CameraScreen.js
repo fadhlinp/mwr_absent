@@ -140,19 +140,13 @@ class Camera extends Component {
                         justifyContent: 'space-between',
                     }}
                     type={this.state.type}
-                    flashMode={this.state.flash}
-                    autoFocus={this.state.autoFocus}
-                    autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-                    zoom={this.state.zoom}
+                    flashMode={RNCamera.Constants.FlashMode.off}
                     whiteBalance={this.state.whiteBalance}
                     ratio={this.state.ratio}
-                    focusDepth={this.state.depth}
+                    captureAudio={false}
                 >
                     <View style={{ flex: 1 }}></View>
                     <View style={{ bottom: s(5), right: s(5) }}>
-                        {this.state.zoom !== 0 && (
-                            <Text style={[styles.flipText, styles.zoomText]}>Zoom: {this.state.zoom}</Text>
-                        )}
                         <View
                             style={{
                                 height: 56,
