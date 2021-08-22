@@ -1,1 +1,2 @@
-export const HOST_API = "http://103.78.39.78:8080/hrmobile/api/service/";
+export const HOST_API =
+  'http://mobile.merpatiwahanaraya.com:8080/hrmobile/api/service/';
